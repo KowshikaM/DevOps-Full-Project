@@ -1,0 +1,25 @@
+- name: Configure Managed Node
+  hosts: servers
+  become: yes
+
+  tasks:
+
+    - name: Update apt packages
+      apt:
+        update_cache: yes
+
+    - name: Install apache2 (httpd)
+      apt:
+        name: apache2
+        state: present
+
+    - name: Start apache service
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Create custom index page
+      copy:
+        content: "<h1>Deployed using Ansible + Apache </h1>"
+        dest: /var/www/html/index.html
